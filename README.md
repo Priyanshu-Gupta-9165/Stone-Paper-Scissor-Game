@@ -23,11 +23,11 @@ Built using **vanilla JavaScript, HTML5, and CSS3**, the game focuses on fundame
 ## Installation & Usage
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/your-username/stone-paper-scissors.git
+   git clone https://github.com/Priyanshu-Gupta-9165/Stone-Paper-Scissor-Game.git
    ```
 2. **Navigate to the project directory:**
    ```sh
-   cd stone-paper-scissors
+   cd Stone-Paper-Scissor-Game
    ```
 3. **Open `index.html` in a web browser.**
    - No additional setup is required.
@@ -39,8 +39,7 @@ Built using **vanilla JavaScript, HTML5, and CSS3**, the game focuses on fundame
 - In **Two Player Mode**, players take turns selecting their choices.
 
 ## Demo
-You can try the game live [here](#) *(Replace `#` with the hosted link when available)*.
-
+You can try the game live https://priyanshu-gupta-9165.github.io/Stone-Paper-Scissor-Game/
 ## License
 This project is open-source and available under the [MIT License](LICENSE).
 
@@ -48,7 +47,7 @@ This project is open-source and available under the [MIT License](LICENSE).
 Feel free to fork the repository and submit a pull request if you have improvements or additional features to suggest!
 
 ## Author
-- **Your Name** *(Replace with your name and GitHub profile link)*
+- **Priyanshu Gupta** 
 
 ---
 Enjoy playing **Stone Paper Scissors**! 🎮
