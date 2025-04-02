@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stone Paper Scissors Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .game-container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .choice {
+            font-size: 2rem;
+            padding: 1rem;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .choice:hover {
+            transform: scale(1.1);
+            background-color: #45a049;
+        }
+        .choice:active {
+            transform: scale(0.9);
+        }
+        #result {
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        #score {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        .mode-buttons {
+            margin-top: 2rem;
+        }
+        .mode-button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .mode-button:hover {
+            background-color: #007B9A;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); }
+            to { transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="slide-in">Stone Paper Scissors</h1>
+        <div class="choices">
+            <button class="choice" id="stone">🪨</button>
+            <button class="choice" id="paper">📄</button>
+            <button class="choice" id="scissors">✂️</button>
+        </div>
+        <div id="result" class="fade-in"></div>
+        <div id="score" class="fade-in"></div>
+        <div class="mode-buttons">
+            <button class="mode-button" id="twoPlayerMode">Two Player Mode</button>
+            <button class="mode-button" id="computerMode">Play with Computer</button>
+        </div>
+    </div>
+
+    <script>
+        const choices = ['stone', 'paper', 'scissors'];
+        const resultDiv = document.getElementById('result');
+        const scoreDiv = document.getElementById('score');
+        const choiceButtons = document.querySelectorAll('.choice');
+        const twoPlayerModeButton = document.getElementById('twoPlayerMode');
+        const computerModeButton = document.getElementById('computerMode');
+
+        let playerOneScore = 0;
+        let playerTwoScore = 0;
+        let currentPlayer = 1;
+        let gameMode = 'computer';
+
+        function computerPlay() {
+            return choices[Math.floor(Math.random() * choices.length)];
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            if (playerSelection === computerSelection) {
+                return "It's a tie!";
+            } else if (
+                (playerSelection === 'stone' && computerSelection === 'scissors') ||
+                (playerSelection === 'paper' && computerSelection === 'stone') ||
+                (playerSelection === 'scissors' && computerSelection === 'paper')
+            ) {
+                playerOneScore++;
+                return `You win! ${playerSelection} beats ${computerSelection}`;
+            } else {
+                playerTwoScore++;
+                return `You lose! ${computerSelection} beats ${playerSelection}`;
+            }
+        }
+
+        function updateScore() {
+            scoreDiv.textContent = `Player 1: ${playerOneScore} - Player 2: ${playerTwoScore}`;
+            scoreDiv.classList.add('fade-in');
+            setTimeout(() => scoreDiv.classList.remove('fade-in'), 500);
+        }
+
+        function handleChoice(event) {
+            const playerSelection = event.target.id;
+            let result;
+
+            if (gameMode === 'computer') {
+                const computerSelection = computerPlay();
+                result = playRound(playerSelection, computerSelection);
+            } else {
+                if (currentPlayer === 1) {
+                    resultDiv.textContent = `Player 1 chose ${playerSelection}. Player 2's turn.`;
+                    currentPlayer = 2;
+                    return;
+                } else {
+                    const playerOneSelection = choices.find(choice => choice !== playerSelection && choice !== computerPlay());
+                    result = playRound(playerOneSelection, playerSelection);
+                    currentPlayer = 1;
+                }
+            }
+
+            resultDiv.textContent = result;
+            resultDiv.classList.add('fade-in');
+            setTimeout(() => resultDiv.classList.remove('fade-in'), 500);
+            updateScore();
+        }
+
+        function setGameMode(mode) {
+            gameMode = mode;
+            playerOneScore = 0;
+            playerTwoScore = 0;
+            currentPlayer = 1;
+            resultDiv.textContent = '';
+            updateScore();
+            if (mode === 'twoPlayer') {
+                resultDiv.textContent = "Player 1's turn";
+            } else {
+                resultDiv.textContent = "Choose your move";
+            }
+        }
+
+        choiceButtons.forEach(button => button.addEventListener('click', handleChoice));
+        twoPlayerModeButton.addEventListener('click', () => setGameMode('twoPlayer'));
+        computerModeButton.addEventListener('click', () => setGameMode('computer'));
+
+        // Initial setup
+        setGameMode('computer');
+    </script>
+</body>
+</html>
